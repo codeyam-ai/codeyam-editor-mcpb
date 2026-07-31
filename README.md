@@ -17,7 +17,7 @@ Once installed, tell Claude:
 
 ## Download
 
-**[⬇ Download codeyam-editor.mcpb](https://github.com/jaredcosulich/codeyam-editor-mcpb/releases/latest/download/codeyam-editor.mcpb)** (87 MB)
+**[⬇ Download codeyam-editor.mcpb](https://github.com/codeyam-ai/codeyam-editor-mcpb/releases/latest/download/codeyam-editor.mcpb)** (87 MB)
 
 The bundle is self-contained — it ships a complete CodeYam editor for each
 platform, so there is nothing else to install and no network access needed to
@@ -41,7 +41,7 @@ Get-FileHash .\codeyam-editor.mcpb -Algorithm SHA256
 Expected SHA-256 for v0.1.7:
 
 ```
-22f6b06df102e07610bb6f54042adbfe6ce14473647681d5c0805735195cd56c
+1799869cf2d3bb011d9dd5dc051ee22204f035e210403c25cbc2298152c560d6
 ```
 
 </details>
@@ -193,7 +193,7 @@ The bundled editor isn't auto-updating (it isn't npm-managed). When a newer
 version is available, Claude will surface an update notice. To update:
 
 1. Download the newest `codeyam-editor.mcpb` from
-   [Releases](https://github.com/jaredcosulich/codeyam-editor-mcpb/releases).
+   [Releases](https://github.com/codeyam-ai/codeyam-editor-mcpb/releases).
 2. Install it the same way — it replaces the existing extension.
 3. Restart Claude Desktop.
 
