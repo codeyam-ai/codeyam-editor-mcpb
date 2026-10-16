@@ -1,0 +1,55 @@
+#!/bin/sh
+# codeyam-mcp — bundled bootstrap wrapper for the codeyam-editor MCP server.
+#
+# The Claude Code plugin declares this as its `mcpServers` command
+# (`${CLAUDE_PLUGIN_ROOT}/bin/codeyam-mcp` in .claude-plugin/plugin.json)
+# so ONE `/plugin install` delivers both the `/codeyam` skill AND the full MCP
+# tool set. Plugin-provided MCP servers auto-start when the plugin is enabled —
+# but the plugin runtime does not wire PATH, and a fresh machine may not have
+# `codeyam-editor` yet. So this wrapper implements the shared install-if-missing
+# contract (the exact detect -> install -> fail-loud branch in
+# skills/codeyam/SKILL.md and docs/claude-distribution-contract.md) and
+# then exec's `codeyam-editor mcp`. On an already-installed machine it is a
+# near-instant passthrough.
+#
+# Deliberately POSIX `sh` (dash/ash safe): no bashisms — same portability
+# contract as scripts/install.sh, which this shells out to.
+
+set -eu
+
+# The official one-line installer, mirrored from SKILL.md step 2. It owns
+# OS/arch detection, the Node/glibc floor, the npm global install, and PATH
+# wiring; CODEYAM_CHANNEL (unset -> latest) selects the dist-tag, read by the
+# installer itself. Prefer the version-matched copy bundled with the plugin;
+# fall back to fetching the latest from codeyam.com (the public host — the
+# release store itself is private) when it is not present.
+INSTALLER_URL="https://codeyam.com/install.sh"
+
+# 1. Detect: already on PATH -> straight to launch, no reinstall.
+if command -v codeyam-editor >/dev/null 2>&1; then
+  exec codeyam-editor mcp
+fi
+
+# 2. Install if missing. The installer fails loud (non-zero) with an exact
+#    remediation on a hard prerequisite (Node <20, npm/glibc floor, offline) —
+#    `set -e` propagates that so the plugin surface reports it; never paper over.
+if [ -n "${CLAUDE_PLUGIN_ROOT:-}" ] && [ -f "${CLAUDE_PLUGIN_ROOT}/scripts/install.sh" ]; then
+  sh "${CLAUDE_PLUGIN_ROOT}/scripts/install.sh"
+else
+  curl -fsSL "$INSTALLER_URL" | sh
+fi
+
+# 3. The installer wired PATH into the user's shell profiles, but THIS process
+#    did not inherit that update. Resolve the npm global bin dir and prepend it
+#    so the just-installed binary is reachable without a fresh login shell.
+if ! command -v codeyam-editor >/dev/null 2>&1; then
+  NPM_PREFIX="$(npm prefix -g 2>/dev/null || true)"
+  if [ -n "$NPM_PREFIX" ] && [ -x "$NPM_PREFIX/bin/codeyam-editor" ]; then
+    PATH="$NPM_PREFIX/bin:$PATH"
+    export PATH
+  fi
+fi
+
+# 4. Launch the MCP server. If it is still not found, `exec` fails loudly with a
+#    non-zero exit the plugin surface reports — never hang silently.
+exec codeyam-editor mcp

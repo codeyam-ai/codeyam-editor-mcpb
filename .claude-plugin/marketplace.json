@@ -1,0 +1,20 @@
+{
+  "name": "codeyam",
+  "owner": {
+    "name": "CodeYam",
+    "url": "https://github.com/codeyam-ai"
+  },
+  "metadata": {
+    "description": "CodeYam's Claude plugin marketplace.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "codeyam-editor",
+      "source": "./",
+      "description": "Launch the CodeYam editor — build any app on any stack against its real captured states (scenarios).",
+      "license": "MIT",
+      "homepage": "https://codeyam.com"
+    }
+  ]
+}

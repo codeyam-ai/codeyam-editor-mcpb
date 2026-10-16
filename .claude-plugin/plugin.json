@@ -1,0 +1,20 @@
+{
+  "name": "codeyam-editor",
+  "displayName": "CodeYam Editor",
+  "description": "Launch the CodeYam editor and build any app on any stack — web, native iOS/Android, desktop, CLIs, or backends — against its real captured states (scenarios). Installs the codeyam-editor CLI if missing, starts the editor, and reports the UI URL; adds MCP tools to list projects, browse scenarios, and queue plans.",
+  "version": "0.1.7",
+  "author": {
+    "name": "CodeYam",
+    "url": "https://codeyam.com"
+  },
+  "homepage": "https://codeyam.com",
+  "repository": "https://github.com/codeyam-ai/codeyam-editor-mcpb",
+  "license": "MIT",
+  "keywords": ["codeyam", "editor", "scenarios", "development", "any-stack"],
+  "mcpServers": {
+    "codeyam-editor": {
+      "command": "${CLAUDE_PLUGIN_ROOT}/bin/codeyam-mcp",
+      "args": []
+    }
+  }
+}

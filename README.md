@@ -1,9 +1,15 @@
-# CodeYam Editor — Claude Desktop Extension
-
-The `.mcpb` bundle that adds **CodeYam Editor** to Claude Desktop.
+# CodeYam Editor for Claude
 
 Build beautifully designed and highly maintainable apps — web, mobile, desktop,
-backend, and more — directly from Claude Desktop, just by describing them.
+backend, and more — just by describing them to Claude. CodeYam is a
+live-preview editor that builds your app against its real captured states
+("scenarios"), whatever your stack: React/Next/Vite, native iOS and Android,
+React Native, Tauri/Electron, CLIs, and backend services.
+
+This repository ships CodeYam to Claude in two forms:
+
+- **A Claude Code plugin** — the `/codeyam` skill plus CodeYam's MCP tools, in one install.
+- **A Claude Desktop extension** — the `codeyam-editor.mcpb` bundle, attached to each [release](https://github.com/codeyam-ai/codeyam-editor-mcpb/releases).
 
 Once installed, tell Claude:
 
@@ -15,7 +21,63 @@ Once installed, tell Claude:
 
 ---
 
-## Download
+## Claude Code plugin
+
+```
+/plugin install codeyam-editor --marketplace codeyam-ai/codeyam-editor-mcpb
+```
+
+On older Claude Code versions, add the marketplace first:
+
+```
+/plugin marketplace add codeyam-ai/codeyam-editor-mcpb
+/plugin install codeyam-editor@codeyam
+```
+
+Then type `/codeyam` (or just ask Claude to "open codeyam").
+
+### What the plugin runs, installs, and connects to
+
+The plugin is two readable files, and it does nothing it doesn't describe here:
+
+- **`skills/codeyam/SKILL.md`** — the `/codeyam` skill. It tells Claude to check
+  for the `codeyam-editor` CLI (`command -v codeyam-editor`), install it if it's
+  missing, run `codeyam-editor start` in your current directory, and report the
+  local UI URL (`http://localhost:14199` by default).
+- **`bin/codeyam-mcp`** — a POSIX `sh` script that Claude Code runs as the
+  plugin's MCP server. If `codeyam-editor` is already on your `PATH` it runs
+  `codeyam-editor mcp` and nothing else. If it is missing, it first runs the
+  official installer.
+
+**Installation (only when the CLI is missing).** Both entry points install with
+`curl -fsSL https://codeyam.com/install.sh | sh`. That script checks your OS,
+architecture, Node.js (20+) and glibc version, then runs
+`npm install -g @codeyam-editor/codeyam-editor` from the public npm registry and
+adds npm's global `bin` directory to `PATH` in your shell profile files (for
+example `~/.zshrc` / `~/.zprofile` or `~/.bashrc` / `~/.bash_profile`). It never
+calls `sudo`, and it exits with an error and a suggested fix if a prerequisite
+is missing. You can install the CLI yourself beforehand
+(`npm install -g @codeyam-editor/codeyam-editor`) and the plugin will skip this
+step entirely.
+
+**Network and data.** The plugin's own files contact only `codeyam.com` (the
+installer script) and the npm registry (the package), and only when the CLI is
+missing. The editor itself runs locally: it serves its UI on `localhost`, reads
+and writes the project you point it at, and stores its state in a `.codeyam/`
+folder inside that project. The plugin asks for no credentials and reads none
+from your environment.
+
+**MCP tools.** `codeyam` (open the editor), `list_projects`, `list_scenarios`,
+`show_scenario`, `scenario_gallery`, `design_gallery`, `quickstart_demo`,
+`create_plan`, `list_plans`, and `get_plan`. The listing, viewing, and gallery
+tools are read-only; `create_plan` writes a plan file into a project's
+`.codeyam/plans/` queue; `codeyam` starts the local editor process.
+
+---
+
+## Claude Desktop extension (`.mcpb`)
+
+### Download
 
 **[⬇ Download codeyam-editor.mcpb](https://github.com/codeyam-ai/codeyam-editor-mcpb/releases/latest/download/codeyam-editor.mcpb)** (87 MB)
 
@@ -67,7 +129,7 @@ Expected SHA-256 for v0.1.7:
 4. **Quit and reopen Claude Desktop** so it picks up the new extension.
 5. Start a new chat and type **`open codeyam`**.
 
-Claude will call CodeYam's `launch_editor` tool, start the editor, and hand you
+Claude will call CodeYam's `codeyam` tool, start the editor, and hand you
 back a URL. Open it and you're building.
 
 ### macOS notes
@@ -142,8 +204,7 @@ Just talk to Claude. It has these CodeYam tools available:
 
 | Tool | What it does |
 |---|---|
-| `get_started` | A warm intro to CodeYam, with an offer to open it. |
-| `launch_editor` | **The main one.** Opens CodeYam in your browser. Triggered by "open codeyam". |
+| `codeyam` | **The main one.** Opens CodeYam in your browser. Triggered by "open codeyam". |
 | `quickstart_demo` | Guided first-success runbook for a brand-new user. |
 | `list_projects` | Lists the CodeYam projects registered on this machine. |
 | `list_scenarios` | Lists a project's captured scenarios — the real states of your app. |
