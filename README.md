@@ -79,7 +79,7 @@ tools are read-only; `create_plan` writes a plan file into a project's
 
 ### Download
 
-**[⬇ Download codeyam-editor.mcpb](https://github.com/codeyam-ai/codeyam-editor-mcpb/releases/latest/download/codeyam-editor.mcpb)** (87 MB)
+**[⬇ Download codeyam-editor.mcpb](https://github.com/codeyam-ai/codeyam-editor-mcpb/releases/latest/download/codeyam-editor.mcpb)** (122 MB)
 
 The bundle is self-contained — it ships a complete CodeYam editor for each
 platform, so there is nothing else to install and no network access needed to
@@ -103,7 +103,7 @@ Get-FileHash .\codeyam-editor.mcpb -Algorithm SHA256
 Expected SHA-256 for v0.1.7:
 
 ```
-1799869cf2d3bb011d9dd5dc051ee22204f035e210403c25cbc2298152c560d6
+645eec700adbc63cff0c1b52f8e3f84217f78524dad7afd9740becc85e45888a
 ```
 
 </details>
