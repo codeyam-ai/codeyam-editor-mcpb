@@ -303,8 +303,6 @@ Expected — see [Windows notes](#windows-notes). Verify the SHA-256, then choos
 ## Links
 
 - **CodeYam** — https://codeyam.com
-- **Distribution contract** (how every CodeYam/Claude surface behaves) —
-  [docs/claude-distribution-contract.md](https://github.com/codeyam-ai/codeyam-editor/blob/main/docs/claude-distribution-contract.md)
 
 ## License
 
