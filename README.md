@@ -17,7 +17,7 @@ Once installed, tell Claude:
 
 …and CodeYam opens in your browser, ready to build.
 
-**Version:** 0.1.22 &nbsp;•&nbsp; **Platforms:** macOS (Apple Silicon + Intel), Windows, Linux
+**Version:** 0.1.23 &nbsp;•&nbsp; **Platforms:** macOS (Apple Silicon + Intel), Windows, Linux
 
 ---
 
@@ -79,7 +79,7 @@ tools are read-only; `create_plan` writes a plan file into a project's
 
 ### Download
 
-**[⬇ Download codeyam-editor.mcpb](https://github.com/codeyam-ai/codeyam-editor-mcpb/releases/latest/download/codeyam-editor.mcpb)** (148 MB)
+**[⬇ Download codeyam-editor.mcpb](https://github.com/codeyam-ai/codeyam-editor-mcpb/releases/latest/download/codeyam-editor.mcpb)** (149 MB)
 
 The bundle is self-contained — it ships a complete CodeYam editor for each
 platform, so there is nothing else to install and no network access needed to
@@ -100,10 +100,10 @@ shasum -a 256 codeyam-editor.mcpb
 Get-FileHash .\codeyam-editor.mcpb -Algorithm SHA256
 ```
 
-Expected SHA-256 for v0.1.22:
+Expected SHA-256 for v0.1.23:
 
 ```
-343be0853fcb737c7048bc817ad4f7582618bb710239657ef17c8e0d64a6ac61
+4a3fb2b9b7df7470094f384d0c22a8a7e585eb35c7c70a7c5ffec305cd5cb51b
 ```
 
 </details>
